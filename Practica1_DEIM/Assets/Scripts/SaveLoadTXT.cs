@@ -21,7 +21,7 @@ public class SaveLoadTXT : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.L)) 
         { 
-        
+            Load();
         }
     }
 
@@ -44,8 +44,19 @@ public class SaveLoadTXT : MonoBehaviour
 
                 StreamReader streamReader = new StreamReader(Application.persistentDataPath + '\\' + filename);
                 streamReader.ReadLine();
+                streamReader.ReadLine(); // se leen las primeras lineas aunque la informacion no sea relevante
+                float x = float.Parse(streamReader.ReadLine()); //Pasar de un string a un tipo concreto
+                float y = float.Parse(streamReader.ReadLine()); //Pasar de un string a un tipo concreto
+                float z = float.Parse(streamReader.ReadLine()); //Pasar de un string a un tipo concreto
 
-                strea
+                streamReader.Close();
+                transform.position = new Vector3(x, y, z); // establecemos la posicion del gameobject 
+            }
+            catch (System.Exception e) //como no guardamos info en ningun servidor, lo guardamos en LOCAL,
+                                       //no tenemos control sobre los archivos del usuario. Nos guardamos de que si 
+                                       //algo va mal, este todo controlado
+            {
+                    Debug.Log(e.Message);
             }
         }
 
