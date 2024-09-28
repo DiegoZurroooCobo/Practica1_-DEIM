@@ -7,10 +7,11 @@ using UnityEngine;
 struct PlayerData
 {
     public Vector3 position;
+    public int score;
 }
 public class SaveLoadJSON : MonoBehaviour
 {
-    public string fileName = "test.json";
+    public string fileName = "playerposition.json";
     // Start is called before the first frame update
     void Start()
     {
@@ -23,11 +24,11 @@ public class SaveLoadJSON : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.G))
         {
-
+            Save();
         }
         if (Input.GetKeyDown(KeyCode.L))
         {
-
+            Load();
         }
 
     }
@@ -38,6 +39,7 @@ public class SaveLoadJSON : MonoBehaviour
 
         PlayerData playerdata = new PlayerData(); // instancio objeto que vamos a guardar 
         playerdata.position = transform.position; // se rellena de info
+        playerdata.score = GameManager.instance.GetScore();
 
         string json = JsonUtility.ToJson(playerdata);   // pasar de un objeto serializable a un formato JSON con un formato string
         streamwriter.WriteLine(json);
@@ -55,6 +57,7 @@ public class SaveLoadJSON : MonoBehaviour
             {                                                                                       // de formato JSON a objeto serializable
                 PlayerData playerdata = JsonUtility.FromJson<PlayerData>(streamReader.ReadToEnd()); // el streamReader lee el json entero y lo pasa a objeto serializable
                 transform.position = playerdata.position;
+                GameManager.instance.SetScore(playerdata.score);
             }
             catch (System.Exception e)
             {
