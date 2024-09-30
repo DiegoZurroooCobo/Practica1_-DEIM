@@ -9,22 +9,26 @@ public class SaveLoadTXT : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        Load();
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.G)) 
-        {
-            Save();
-        }
-        else if (Input.GetKeyDown(KeyCode.L)) 
-        { 
-            Load();
-        }
-    }
+    //void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.G)) //al pulsar la G, se ejecuta el metodo Save
+    //    {
+    //        Save();
+    //    }
+    //    else if (Input.GetKeyDown(KeyCode.L)) // al pulsar la L, se ejecuta el metodo Load
+    //    {
+    //        Load();
+    //    }
+    //}
 
+    private void OnApplicationQuit()
+    {
+        Save();
+    }
     void Save() 
     {
         StreamWriter streamwriter = new StreamWriter(Application.persistentDataPath + '\\' + filename);

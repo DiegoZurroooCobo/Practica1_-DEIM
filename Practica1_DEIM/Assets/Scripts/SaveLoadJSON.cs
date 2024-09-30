@@ -16,21 +16,27 @@ public class SaveLoadJSON : MonoBehaviour
     void Start()
     {
         fileName = Application.persistentDataPath + '\\' + fileName;
+        Load();
     }
 
     // Update is called once per frame
-    void Update()
+    //void Update()
+    //{
+
+    //    if (Input.GetKeyDown(KeyCode.G)) // al presionar la G, se ejecuta el metodo Save
+    //    {
+    //        Save();
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.L)) // al presionar la L, se ejecuta el metodo Load
+    //    {
+    //        Load();
+    //    }
+
+    //}
+
+    private void OnApplicationQuit()
     {
-
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            Save();
-        }
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            Load();
-        }
-
+        Save();
     }
 
     void Save()
