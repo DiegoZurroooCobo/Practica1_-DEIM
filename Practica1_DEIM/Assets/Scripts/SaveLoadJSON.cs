@@ -1,13 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
 [System.Serializable]
-struct PlayerData
+struct PlayerData   // estructura de datos especifica de json
 {
     public Vector3 position;
     public int score;
+    public string time;
 }
 public class SaveLoadJSON : MonoBehaviour
 {
@@ -15,26 +17,17 @@ public class SaveLoadJSON : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        fileName = Application.persistentDataPath + '\\' + fileName;
-        Load();
+        fileName = Application.persistentDataPath + '\\' + fileName; // el archivo de guardado se guarda donde nosotros indicamos 
     }
 
-    // Update is called once per frame
-    //void Update()
-    //{
-
-    //    if (Input.GetKeyDown(KeyCode.G)) // al presionar la G, se ejecuta el metodo Save
-    //    {
-    //        Save();
-    //    }
-    //    if (Input.GetKeyDown(KeyCode.L)) // al presionar la L, se ejecuta el metodo Load
-    //    {
-    //        Load();
-    //    }
-
-    //}
-
-    private void OnApplicationQuit()
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.L))
+        {
+            Load();
+        }
+    }
+    private void OnApplicationQuit() // al cerrarse la aplicacion, la informacion se guarda de manera automatica 
     {
         Save();
     }
@@ -44,14 +37,16 @@ public class SaveLoadJSON : MonoBehaviour
         StreamWriter streamwriter = new StreamWriter(fileName);
 
         PlayerData playerdata = new PlayerData(); // instancio objeto que vamos a guardar 
-        playerdata.position = transform.position; // se rellena de info
+        playerdata.position = transform.position; 
         playerdata.score = GameManager.instance.GetScore();
+        playerdata.time = DateTime.Now.ToString();
+        // se rellena el playerdata de info 
 
         string json = JsonUtility.ToJson(playerdata);   // pasar de un objeto serializable a un formato JSON con un formato string
-        streamwriter.WriteLine(json);
+        streamwriter.WriteLine(json); //escribe toda la informacion almacenada en el playerdata
 
 
-        streamwriter.Close();
+        streamwriter.Close(); // cerramos el guardado
     }
 
     void Load()

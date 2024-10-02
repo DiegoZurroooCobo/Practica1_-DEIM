@@ -21,7 +21,8 @@ public class UpdateText : MonoBehaviour
         {
             case GameManager.GameManagerVariables.Score: 
                 int currentScore = GameManager.instance.GetScore(); // llama al score actual del gameManager
-                if(auxScore != currentScore) 
+                if(auxScore != currentScore) // si el score auxilar no es igual al score actual, comienza la corrutina 
+                                             // y el score auxiliar se convierte en el score
                 { 
                     StartCoroutine(FadeOut());
                     auxScore = currentScore;   
