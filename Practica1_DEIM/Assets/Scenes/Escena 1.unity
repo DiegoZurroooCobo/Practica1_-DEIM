@@ -3377,7 +3377,6 @@ GameObject:
   - component: {fileID: 2143331096}
   - component: {fileID: 2143331095}
   - component: {fileID: 2143331094}
-  - component: {fileID: 2143331101}
   - component: {fileID: 2143331100}
   - component: {fileID: 2143331099}
   - component: {fileID: 2143331102}
@@ -3533,19 +3532,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   filename: playerPosition.txt
---- !u!114 &2143331101
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2143331093}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bc8bbc7228b17e4b8db2688e5c653cf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fileName: playerPosition.json
 --- !u!54 &2143331102
 Rigidbody:
   m_ObjectHideFlags: 0

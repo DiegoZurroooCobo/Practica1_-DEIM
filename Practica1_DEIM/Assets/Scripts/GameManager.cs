@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public enum GameManagerVariables {Score};
+    private List<string> hours;
 
     private int score;
     private void Awake()
@@ -14,18 +15,13 @@ public class GameManager : MonoBehaviour
         { 
             instance = this;
             DontDestroyOnLoad(gameObject);
+            hours = new List<string>();
         }
         else 
         { 
             Destroy(gameObject);
+    }
         }
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -40,4 +36,15 @@ public class GameManager : MonoBehaviour
     { 
         score = value;
     }
+
+    public void SetHours(List<string> value)    
+    { 
+        hours = value;  
+    }
+    public List<string> GetHours() 
+    { 
+        return hours;
+    }
+
+
 }

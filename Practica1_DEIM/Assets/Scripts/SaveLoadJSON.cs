@@ -9,7 +9,8 @@ struct PlayerData   // estructura de datos especifica de json
 {
     public Vector3 position;
     public int score;
-    public string time;
+    //public string time;
+    public List<string> Hours;
 }
 public class SaveLoadJSON : MonoBehaviour
 {
@@ -18,14 +19,7 @@ public class SaveLoadJSON : MonoBehaviour
     void Start()
     {
         fileName = Application.persistentDataPath + '\\' + fileName; // el archivo de guardado se guarda donde nosotros indicamos 
-    }
-
-    private void Update()
-    {
-        if (Input.GetKey(KeyCode.L))
-        {
-            Load();
-        }
+        Load();
     }
     private void OnApplicationQuit() // al cerrarse la aplicacion, la informacion se guarda de manera automatica 
     {
@@ -39,7 +33,10 @@ public class SaveLoadJSON : MonoBehaviour
         PlayerData playerdata = new PlayerData(); // instancio objeto que vamos a guardar 
         playerdata.position = transform.position; 
         playerdata.score = GameManager.instance.GetScore();
-        playerdata.time = DateTime.Now.ToString();
+        //playerdata.time = DateTime.Now.ToString();
+        List<string> hours = GameManager.instance.GetHours();
+        hours.Add(DateTime.Now.ToString("HH.mm.ss"));
+        playerdata.Hours = hours;
         // se rellena el playerdata de info 
 
         string json = JsonUtility.ToJson(playerdata);   // pasar de un objeto serializable a un formato JSON con un formato string
@@ -59,6 +56,7 @@ public class SaveLoadJSON : MonoBehaviour
                 PlayerData playerdata = JsonUtility.FromJson<PlayerData>(streamReader.ReadToEnd()); // el streamReader lee el json entero y lo pasa a objeto serializable
                 transform.position = playerdata.position;
                 GameManager.instance.SetScore(playerdata.score);
+                GameManager.instance.SetHours(playerdata.Hours);
             }
             catch (System.Exception e)
             {

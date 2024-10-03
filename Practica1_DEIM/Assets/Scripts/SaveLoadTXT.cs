@@ -8,12 +8,9 @@ public class SaveLoadTXT : MonoBehaviour
 {
     public string filename = "playerPosition.txt";
     List <DateTime> Times = new List<DateTime>(); // Creamos una lista que almacena el tiempo 
-    private void Update()
+    private void Start()
     {
-        if (Input.GetKey(KeyCode.L))
-        {
-            Load();
-        }
+        Load();
     }
 
     private void OnApplicationQuit()
@@ -27,19 +24,13 @@ public class SaveLoadTXT : MonoBehaviour
         streamwriter.WriteLine(transform.position.y);
         streamwriter.WriteLine(transform.position.z);
         streamwriter.WriteLine(GameManager.instance.GetScore());
+        List<string> hours_ = GameManager.instance.GetHours();
+        hours_.Add(DateTime.Now.ToString("HH:mm:ss"));
         // escribimos la informacion de la posicion y de la puntuacion
 
-        if(Times !=  null ) // si la lista de tiempos no es null se crea un foreach 
+        foreach(string hour in hours_) 
         { 
-            foreach (DateTime date in Times) // el foreach recorre la lista 
-            { 
-                streamwriter.WriteLine(date.ToString());  // por cada "date" que hay en la lista Times, se escribe la informacion del tiempo
-            }
-            streamwriter.WriteLine(DateTime.Now.ToString()); // escribe el tiempo actual
-        }
-        else 
-        {
-            streamwriter.WriteLine(DateTime.Now.ToString()); // si no es null, tambien escribe la informacion del tiempo 
+            streamwriter.WriteLine(hour);
         }
 
         streamwriter.Close(); // importante cerrar los cambios
@@ -56,7 +47,14 @@ public class SaveLoadTXT : MonoBehaviour
                 float y = float.Parse(streamReader.ReadLine()); //Pasar de un string a un tipo concreto
                 float z = float.Parse(streamReader.ReadLine()); //Pasar de un string a un tipo concreto
                 int score = int.Parse(streamReader.ReadLine()); 
-                DateTime times = DateTime.Parse(streamReader.ReadLine());
+                List<string> hoursAux = new List<string>();
+
+                // como las horas es lo ultimo qu ese guarda
+                while(!streamReader.EndOfStream) 
+                { 
+                    hoursAux.Add(streamReader.ReadLine());
+                }
+                GameManager.instance.SetHours(hoursAux);
                 // pasa la informcion de un tipo a string para que sea visible en el documento de guardado
 
                 streamReader.Close(); // cerramos el lector 
@@ -71,6 +69,7 @@ public class SaveLoadTXT : MonoBehaviour
                     Debug.Log(e.Message);
             }
             // hacemos un try catch para evitar que si ocurre un problema al cargar la informacion, la aplicacion colapse 
+            // 
         }
     }
 }
